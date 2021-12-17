@@ -1,0 +1,5 @@
+Aprendendo Sobre Spring Boot, Quais São As Dependências Que Ele Pode Ter Como:
+Spring Data
+Spring Security
+Spring Framework 
+Isso São Só Exemplos, Porém O Spring Abrange Bem Mais Coisas
