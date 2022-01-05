@@ -1,6 +1,8 @@
 package academy.devdojo.CursoSpringBoot.controller;
 
 import academy.devdojo.CursoSpringBoot.domain.Anime;
+import academy.devdojo.CursoSpringBoot.requests.AnimePostResquestBody;
+import academy.devdojo.CursoSpringBoot.requests.AnimePutResquestBody;
 import academy.devdojo.CursoSpringBoot.service.AnimeService;
 import academy.devdojo.CursoSpringBoot.util.DateUtil;
 import lombok.AllArgsConstructor;
@@ -28,12 +30,12 @@ public class AnimeController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Anime> findById(@PathVariable long id){
-        return ResponseEntity.ok(animeService.findById(id));
+    public ResponseEntity<Anime> findById(@PathVariable Long id){
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime){
+    public ResponseEntity<Anime> save(@RequestBody AnimePostResquestBody anime){
         return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
     }
 
@@ -44,8 +46,8 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Anime anime){
-        animeService.replace(anime);
+    public ResponseEntity<Void> replace(@RequestBody AnimePutResquestBody animePutResquestBody){
+        animeService.replace(animePutResquestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
