@@ -1,6 +1,7 @@
 package academy.devdojo.CursoSpringBoot.service;
 
 import academy.devdojo.CursoSpringBoot.domain.Anime;
+import academy.devdojo.CursoSpringBoot.mapper.AnimeMapper;
 import academy.devdojo.CursoSpringBoot.repository.AnimeRepository;
 import academy.devdojo.CursoSpringBoot.requests.AnimePostResquestBody;
 import academy.devdojo.CursoSpringBoot.requests.AnimePutResquestBody;
@@ -9,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class AnimeService {
     }
 
     public Anime save(AnimePostResquestBody animePostResquestBody) {
-        return animeRepository.save(Anime.builder().name(animePostResquestBody.getName()).build());
+        return animeRepository.save(AnimeMapper.INSTANCE.toAnime(animePostResquestBody));
     }
 
     public void delete(long id){
@@ -38,11 +37,8 @@ public class AnimeService {
 
     public void replace(AnimePutResquestBody animePutResquestBody) {
         Anime savedAnime = findByIdOrThrowBadRequestException(animePutResquestBody.getId());
-        Anime anime = Anime.builder()
-                .id(savedAnime.getId())
-                .name(animePutResquestBody.getName())
-                .build();
-
+        Anime anime = AnimeMapper.INSTANCE.toAnime(animePutResquestBody);
+        anime.setId(savedAnime.getId());
         animeRepository.save(anime);
     }
 }
